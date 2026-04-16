@@ -1,21 +1,30 @@
 # 自己紹介ページ
 
-GitHub Pages で公開できる静的サイトです。
+React と Vite で作成した自己紹介サイトです。
+
+## 開発
+
+```bash
+npm install
+npm run dev
+```
+
+## ビルド
+
+```bash
+npm run build
+```
 
 ## ファイル構成
 
-- `index.html`: ページ本体
-- `.nojekyll`: GitHub Pages でそのまま配信するための設定ファイル
+- `src/App.jsx`: ページ本体
+- `src/styles.css`: ページスタイル
+- `src/main.jsx`: React エントリポイント
+- `vite.config.js`: Vite 設定
+- `.github/workflows/deploy.yml`: GitHub Pages デプロイ設定
 
-## GitHub Pages 公開手順
+## GitHub Pages
 
-1. GitHub で新しいリポジトリを作成する
-2. このフォルダの中身をそのリポジトリにアップロードする
-3. GitHub の `Settings` -> `Pages` を開く
-4. `Deploy from a branch` を選ぶ
-5. ブランチは `main`、フォルダは `/ (root)` を選ぶ
-6. 保存後、公開URLが発行される
+このリポジトリは GitHub Actions で `dist` をビルドして Pages に公開します。
 
-公開URLの例:
-
-`https://your-name.github.io/your-repo/`
+GitHub の `Settings` -> `Pages` で、公開元を `GitHub Actions` に設定してください。
