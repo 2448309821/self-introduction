@@ -349,6 +349,12 @@ section {
   aspect-ratio: 16 / 10;
 }
 
+.likes-media-frame {
+  aspect-ratio: auto;
+  height: 380px;
+  background: linear-gradient(180deg, #eff6ff 0%, #e4efff 100%);
+}
+
 .media-image {
   display: block;
   width: 100%;
@@ -357,8 +363,22 @@ section {
   transition: transform 240ms ease;
 }
 
+.likes-media-image {
+  object-fit: cover;
+}
+
+.pokemon-media-image {
+  object-fit: contain;
+  transform: scale(1.16);
+  transform-origin: center;
+}
+
 .panel:hover .media-image {
   transform: scale(1.03);
+}
+
+.panel:hover .pokemon-media-image {
+  transform: scale(1.2);
 }
 
 .image-credit {
@@ -635,6 +655,10 @@ section {
   .symbol-box {
     height: 220px;
     font-size: clamp(1.6rem, 8vw, 2.5rem);
+  }
+
+  .likes-media-frame {
+    height: 260px;
   }
 
   .symbol-compact {

@@ -15,31 +15,33 @@ const animeTitles = ['ノゲノラ', 'メダリスト', 'リゼロ', 'ポケモ�
 
 const researchKeywords = ['ライブラリ', '依存関係', '脆弱性管理', 'サプライチェーン']
 
+const imageBase = `${import.meta.env.BASE_URL}image/`
+
 const imageSources = {
   harbin: {
-    src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/63/Harbin_Ice_Festival.jpg/1280px-Harbin_Ice_Festival.jpg',
+    src: `${imageBase}harbin-ice-festival.jpg`,
     alt: 'ハルビンの氷雪祭りの風景',
     credit: 'Harbin Ice Festival / Wikimedia Commons',
   },
   orca: {
-    src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/37/Killerwhales_jumping.jpg/1280px-Killerwhales_jumping.jpg',
+    src: `${imageBase}orca.jpg`,
     alt: '海面から跳ねるシャチ',
     credit: 'Killerwhales jumping / Wikimedia Commons',
   },
   billiards: {
-    src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/PoolTablewithEquipment-non.jpg/1280px-PoolTablewithEquipment-non.jpg',
+    src: `${imageBase}billiards.jpg`,
     alt: 'ビリヤード台とボール',
     credit: 'Pool table with equipment / Wikimedia Commons',
   },
   game: {
-    src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/Nintendo-Switch-Pro-Controller-FL.jpg/1280px-Nintendo-Switch-Pro-Controller-FL.jpg',
-    alt: 'ゲームコントローラー',
-    credit: 'Nintendo Switch Pro Controller / Wikimedia Commons',
+    src: `${imageBase}genshin.png`,
+    alt: '原神のイラスト',
+    credit: 'Game image provided locally',
   },
   anime: {
-    src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Comic_Frontier_9_view.jpg/1280px-Comic_Frontier_9_view.jpg',
-    alt: 'アニメコンベンションの会場風景',
-    credit: 'Comic Frontier 9 view / Wikimedia Commons',
+    src: `${imageBase}pokemon.png`,
+    alt: 'ポケモンのイラスト',
+    credit: 'Anime image provided locally',
   },
 }
 
@@ -199,9 +201,9 @@ function App() {
 
           <div className="grid-2 likes-grid">
             <article className="panel reveal">
-              <figure className="media-frame wide-frame">
+              <figure className="media-frame wide-frame likes-media-frame">
                 <img
-                  className="media-image"
+                  className="media-image likes-media-image"
                   src={imageSources.game.src}
                   alt={imageSources.game.alt}
                   loading="lazy"
@@ -220,9 +222,9 @@ function App() {
             </article>
 
             <article className="panel soft reveal">
-              <figure className="media-frame wide-frame">
+              <figure className="media-frame wide-frame likes-media-frame">
                 <img
-                  className="media-image"
+                  className="media-image likes-media-image pokemon-media-image"
                   src={imageSources.anime.src}
                   alt={imageSources.anime.alt}
                   loading="lazy"
