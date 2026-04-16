@@ -9,6 +9,8 @@
   --accent-dark: #1d5db8;
   --shadow: 0 18px 40px rgba(23, 52, 92, 0.08);
   --radius: 24px;
+  --font-body: "Noto Sans JP", "Hiragino Sans", "Yu Gothic UI", sans-serif;
+  --font-display: "Outfit", "Noto Sans JP", "Hiragino Sans", "Yu Gothic UI", sans-serif;
 }
 
 * {
@@ -21,7 +23,7 @@ html {
 
 body {
   margin: 0;
-  font-family: "Segoe UI", "Hiragino Sans", "Yu Gothic UI", sans-serif;
+  font-family: var(--font-body);
   color: var(--text);
   background:
     radial-gradient(circle at top left, rgba(63, 142, 252, 0.12), transparent 28%),
@@ -93,12 +95,15 @@ h3 {
   letter-spacing: 0.08em;
   font-weight: 700;
   text-transform: uppercase;
+  font-family: var(--font-display);
 }
 
 h1 {
+  font-family: var(--font-display);
   font-size: clamp(2.9rem, 7vw, 4.6rem);
   line-height: 1.05;
   margin-top: 16px;
+  letter-spacing: -0.03em;
 }
 
 .lab {
@@ -114,13 +119,16 @@ h1 {
 
 .name-ja {
   margin-top: 28px;
+  font-family: var(--font-display);
   font-size: clamp(2rem, 4vw, 2.8rem);
   color: var(--accent-dark);
   font-weight: 800;
+  letter-spacing: -0.03em;
 }
 
 .name-en {
   margin-top: 8px;
+  font-family: var(--font-display);
   color: var(--muted);
   letter-spacing: 0.06em;
 }
@@ -155,6 +163,7 @@ h1 {
 }
 
 .hero-badge {
+  font-family: var(--font-display);
   padding: 8px 14px;
   border-radius: 999px;
   border: 1px solid rgba(207, 224, 243, 0.9);
@@ -188,6 +197,7 @@ h1 {
 }
 
 .monster span {
+  font-family: var(--font-display);
   font-size: clamp(1.5rem, 4vw, 2.3rem);
   font-weight: 900;
   letter-spacing: 0.08em;
@@ -200,9 +210,11 @@ h1 {
 }
 
 .hello {
+  font-family: var(--font-display);
   font-size: clamp(1.8rem, 4vw, 2.7rem);
   font-weight: 800;
   color: var(--accent-dark);
+  letter-spacing: -0.03em;
 }
 
 .top-nav {
@@ -223,6 +235,7 @@ h1 {
 }
 
 .nav-list a {
+  font-family: var(--font-display);
   padding: 10px 16px;
   border-radius: 999px;
   background: #ffffff;
@@ -248,8 +261,10 @@ section {
 }
 
 .section-head h2 {
+  font-family: var(--font-display);
   font-size: clamp(2rem, 4vw, 3rem);
   line-height: 1.1;
+  letter-spacing: -0.03em;
 }
 
 .section-note {
@@ -281,8 +296,16 @@ section {
   gap: 24px;
 }
 
+.likes-grid {
+  align-items: start;
+}
+
 .panel {
   padding: 28px;
+}
+
+.stack-gap {
+  margin-top: 24px;
 }
 
 .soft {
@@ -297,6 +320,7 @@ section {
   align-items: center;
   justify-content: center;
   color: var(--accent-dark);
+  font-family: var(--font-display);
   font-size: clamp(2rem, 5vw, 3.5rem);
   font-weight: 900;
   letter-spacing: 0.08em;
@@ -372,9 +396,11 @@ section {
 .quote {
   margin-top: 26px;
   color: var(--accent);
+  font-family: var(--font-display);
   font-size: clamp(1.5rem, 3vw, 2.3rem);
   line-height: 1.4;
   font-weight: 800;
+  letter-spacing: -0.03em;
 }
 
 .split-title {
@@ -393,8 +419,10 @@ section {
 }
 
 .panel-title {
+  font-family: var(--font-display);
   font-size: 1.9rem;
   color: var(--accent-dark);
+  letter-spacing: -0.03em;
 }
 
 .body-copy {
@@ -403,16 +431,20 @@ section {
 }
 
 .large-copy {
+  font-family: var(--font-display);
   font-size: 2rem;
   font-weight: 700;
   line-height: 1.5;
+  letter-spacing: -0.03em;
 }
 
 .big {
+  font-family: var(--font-display);
   font-size: clamp(2rem, 4vw, 3.2rem);
   line-height: 1.2;
   font-weight: 900;
   color: var(--accent-dark);
+  letter-spacing: -0.04em;
 }
 
 .emphasis-copy {
@@ -428,9 +460,11 @@ section {
 }
 
 .goal-copy {
+  font-family: var(--font-display);
   font-size: 2rem;
   color: var(--accent);
   font-weight: 900;
+  letter-spacing: -0.03em;
 }
 
 .badge-grid {
@@ -464,13 +498,16 @@ section {
   padding: 18px;
   text-align: center;
   color: var(--accent-dark);
+  font-family: var(--font-display);
   font-weight: 800;
 }
 
 .sbom-title {
+  font-family: var(--font-display);
   font-size: 1.8rem;
   font-weight: 800;
   color: var(--accent-dark);
+  letter-spacing: -0.03em;
 }
 
 .research-detail {
@@ -478,7 +515,26 @@ section {
 }
 
 .research-heading {
+  font-family: var(--font-display);
   font-size: 1.7rem;
+  letter-spacing: -0.03em;
+}
+
+.reveal {
+  will-change: transform, opacity;
+}
+
+.reveal-ready .reveal {
+  opacity: 0;
+  transform: translateY(26px) scale(0.985);
+  transition:
+    opacity 700ms ease,
+    transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.reveal-ready .reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
 }
 
 .detail-gap {

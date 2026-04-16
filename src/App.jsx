@@ -1,3 +1,5 @@
+import { useEffect } from 'react'
+
 const callPoints = [
   '中国の黒竜江省から来ました。',
   '2017年に日本へ来て、もう九年近くになります。',
@@ -8,6 +10,8 @@ const callPoints = [
 const originKeywords = ['中国', '黒竜江省', '氷', '雪', '2017年に来日']
 
 const games = ['原神', 'アークナイツ', '崩壊スターレール', 'ゼンゼロ', 'シャドーバス']
+
+const animeTitles = ['ノゲノラ', 'メダリスト', 'リゼロ', 'ポケモン', '暗殺教室']
 
 const researchKeywords = ['ライブラリ', '依存関係', '脆弱性管理', 'サプライチェーン']
 
@@ -27,6 +31,16 @@ const imageSources = {
     alt: 'ビリヤード台とボール',
     credit: 'Pool table with equipment / Wikimedia Commons',
   },
+  game: {
+    src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/Nintendo-Switch-Pro-Controller-FL.jpg/1280px-Nintendo-Switch-Pro-Controller-FL.jpg',
+    alt: 'ゲームコントローラー',
+    credit: 'Nintendo Switch Pro Controller / Wikimedia Commons',
+  },
+  anime: {
+    src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Comic_Frontier_9_view.jpg/1280px-Comic_Frontier_9_view.jpg',
+    alt: 'アニメコンベンションの会場風景',
+    credit: 'Comic Frontier 9 view / Wikimedia Commons',
+  },
 }
 
 function SectionTitle({ title, note }) {
@@ -42,11 +56,38 @@ function SectionTitle({ title, note }) {
 }
 
 function App() {
+  useEffect(() => {
+    document.body.classList.add('reveal-ready')
+
+    const elements = Array.from(document.querySelectorAll('.reveal'))
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible')
+            observer.unobserve(entry.target)
+          }
+        })
+      },
+      {
+        threshold: 0.18,
+        rootMargin: '0px 0px -8% 0px',
+      },
+    )
+
+    elements.forEach((element) => observer.observe(element))
+
+    return () => {
+      observer.disconnect()
+      document.body.classList.remove('reveal-ready')
+    }
+  }, [])
+
   return (
     <>
       <header className="hero wrap" id="top">
         <div className="hero-grid">
-          <article className="card hero-main">
+          <article className="card hero-main reveal">
             <div>
               <span className="eyebrow">Self Introduction</span>
               <h1>自己紹介</h1>
@@ -58,7 +99,7 @@ function App() {
             <p className="edition">Simple blue &amp; white edition</p>
           </article>
 
-          <aside className="card hero-visual">
+          <aside className="card hero-visual reveal">
             <div className="visual-box">
               <div className="hero-badge-row">
                 <span className="hero-badge">Japanese</span>
@@ -91,7 +132,7 @@ function App() {
           <SectionTitle title="呼び方" note="How to call me" />
 
           <div className="grid-2">
-            <article className="panel">
+            <article className="panel reveal">
               <p className="split-title">裴（はい）元嘉 / PEI YUANJIA</p>
               <ul className="list">
                 {callPoints.map((point) => (
@@ -100,7 +141,7 @@ function App() {
               </ul>
             </article>
 
-            <aside className="panel soft">
+            <aside className="panel soft reveal">
               <p className="split-title">おすすめの呼び方</p>
               <div className="pill-row">
                 <span className="pill">はい</span>
@@ -118,7 +159,7 @@ function App() {
           <SectionTitle title="出身" note="Heilongjiang, China" />
 
           <div className="grid-2">
-            <article className="panel">
+            <article className="panel reveal">
               <figure className="media-frame tall-frame">
                 <img
                   className="media-image"
@@ -135,7 +176,7 @@ function App() {
               <p className="image-credit">{imageSources.harbin.credit}</p>
             </article>
 
-            <aside className="panel soft">
+            <aside className="panel soft reveal">
               <p className="split-title">キーワード</p>
               <div className="pill-row">
                 {originKeywords.map((keyword) => (
@@ -156,22 +197,51 @@ function App() {
         <section id="likes">
           <SectionTitle title="好きなもの" note="Anime / Game / Light Novel / Orca" />
 
-          <div className="grid-3">
-            <article className="panel">
-              <div className="symbol-box symbol-compact">GAME</div>
-              <h3 className="panel-title">アニメ・ゲームが好きです</h3>
+          <div className="grid-2 likes-grid">
+            <article className="panel reveal">
+              <figure className="media-frame wide-frame">
+                <img
+                  className="media-image"
+                  src={imageSources.game.src}
+                  alt={imageSources.game.alt}
+                  loading="lazy"
+                />
+              </figure>
+              <h3 className="panel-title">ゲーム</h3>
               <p className="body-copy">
-                作品の世界観やキャラクターを見るのが好きで、継続して楽しんでいます。
+                世界観や育成要素がある作品を長く遊ぶことが多く、少しずつ積み重ねるタイプのゲームが特に好きです。
+              </p>
+              <div className="pill-row visual-pills">
+                <span className="pill">Game</span>
+                <span className="pill">Worldbuilding</span>
+                <span className="pill">Character</span>
+              </div>
+              <p className="image-credit">{imageSources.game.credit}</p>
+            </article>
+
+            <article className="panel soft reveal">
+              <figure className="media-frame wide-frame">
+                <img
+                  className="media-image"
+                  src={imageSources.anime.src}
+                  alt={imageSources.anime.alt}
+                  loading="lazy"
+                />
+              </figure>
+              <h3 className="panel-title">アニメ</h3>
+              <p className="body-copy">
+                作画や演出を見るのも好きで、テンポが良い作品やキャラクターの魅力が強い作品によく惹かれます。
               </p>
               <div className="pill-row visual-pills">
                 <span className="pill">Anime</span>
-                <span className="pill">Game</span>
                 <span className="pill">Light Novel</span>
+                <span className="pill">Story</span>
               </div>
+              <p className="image-credit">{imageSources.anime.credit}</p>
             </article>
 
-            <article className="panel soft">
-              <p className="split-title">ゲーム</p>
+            <article className="panel reveal">
+              <p className="split-title">よく遊ぶゲーム</p>
               <div className="badge-grid">
                 {games.map((game) => (
                   <div className="badge" key={game}>
@@ -179,32 +249,40 @@ function App() {
                   </div>
                 ))}
               </div>
-
-              <p className="split-title with-gap">アニメ</p>
-              <p className="body-copy">ノゲノラ / メダリスト / リゼロ / ポケモン / 暗殺教室 など</p>
             </article>
 
-            <article className="panel">
-              <figure className="media-frame wide-frame">
-                <img
-                  className="media-image"
-                  src={imageSources.orca.src}
-                  alt={imageSources.orca.alt}
-                  loading="lazy"
-                />
-              </figure>
-              <h3 className="panel-title">シャチも好きです</h3>
-              <p className="body-copy">強さとかっこよさの両方があるところに惹かれます。</p>
-              <p className="image-credit">{imageSources.orca.credit}</p>
+            <article className="panel soft reveal">
+              <p className="split-title">好きなアニメ</p>
+              <div className="badge-grid">
+                {animeTitles.map((title) => (
+                  <div className="badge" key={title}>
+                    {title}
+                  </div>
+                ))}
+              </div>
             </article>
           </div>
+
+          <article className="panel reveal stack-gap">
+            <figure className="media-frame wide-frame">
+              <img
+                className="media-image"
+                src={imageSources.orca.src}
+                alt={imageSources.orca.alt}
+                loading="lazy"
+              />
+            </figure>
+            <h3 className="panel-title">シャチも好きです</h3>
+            <p className="body-copy">強さとかっこよさの両方があるところに惹かれます。</p>
+            <p className="image-credit">{imageSources.orca.credit}</p>
+          </article>
         </section>
 
         <section id="hobby">
           <SectionTitle title="趣味と目標" note="Enjoy what I like, and keep improving" />
 
           <div className="grid-2">
-            <article className="panel">
+            <article className="panel reveal">
               <figure className="media-frame wide-frame">
                 <img
                   className="media-image"
@@ -222,7 +300,7 @@ function App() {
               <p className="image-credit">{imageSources.billiards.credit}</p>
             </article>
 
-            <aside className="panel soft">
+            <aside className="panel soft reveal">
               <p className="split-title">将来なりたい人物像</p>
               <p className="big">信頼される人</p>
               <p className="body-copy emphasis-copy">
@@ -241,7 +319,7 @@ function App() {
           <SectionTitle title="研究関連" note="Software Bill of Materials" />
 
           <div className="grid-2">
-            <article className="panel">
+            <article className="panel reveal">
               <p className="big">SBOM</p>
               <p className="body-copy">
                 これまで取り組んできた内容を、シンプルに2つのブロックで紹介します。
@@ -255,7 +333,7 @@ function App() {
               </div>
             </article>
 
-            <aside className="panel soft">
+            <aside className="panel soft reveal">
               <p className="split-title">SBOM とは</p>
               <p className="sbom-title">ソフトウェアの「成分表」</p>
               <p className="body-copy">含まれるライブラリや依存関係を一覧化したものです。</p>
@@ -268,7 +346,7 @@ function App() {
             </aside>
           </div>
 
-          <div className="panel research-detail">
+          <div className="panel research-detail reveal">
             <div className="section-head section-head-compact">
               <h3 className="research-heading">これまでの研究内容</h3>
               <p className="section-note">SBOM generation tools in Python environment</p>
@@ -306,7 +384,7 @@ function App() {
         </section>
 
         <section className="footer" id="end">
-          <div className="footer-box">
+          <div className="footer-box reveal">
             <p className="split-title">終わり</p>
             <p className="big">ご清聴ありがとうございました</p>
             <p className="body-copy footer-copy">今後ともよろしくお願いします。</p>
