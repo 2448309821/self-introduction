@@ -11,6 +11,24 @@ const games = ['原神', 'アークナイツ', '崩壊スターレール', 'ゼ�
 
 const researchKeywords = ['ライブラリ', '依存関係', '脆弱性管理', 'サプライチェーン']
 
+const imageSources = {
+  harbin: {
+    src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/63/Harbin_Ice_Festival.jpg/1280px-Harbin_Ice_Festival.jpg',
+    alt: 'ハルビンの氷雪祭りの風景',
+    credit: 'Harbin Ice Festival / Wikimedia Commons',
+  },
+  orca: {
+    src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/37/Killerwhales_jumping.jpg/1280px-Killerwhales_jumping.jpg',
+    alt: '海面から跳ねるシャチ',
+    credit: 'Killerwhales jumping / Wikimedia Commons',
+  },
+  billiards: {
+    src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/PoolTablewithEquipment-non.jpg/1280px-PoolTablewithEquipment-non.jpg',
+    alt: 'ビリヤード台とボール',
+    credit: 'Pool table with equipment / Wikimedia Commons',
+  },
+}
+
 function SectionTitle({ title, note }) {
   return (
     <div className="section-head">
@@ -42,8 +60,14 @@ function App() {
 
           <aside className="card hero-visual">
             <div className="visual-box">
-              <div className="monster">
-                <span>BLUE PROFILE</span>
+              <div className="hero-badge-row">
+                <span className="hero-badge">Japanese</span>
+                <span className="hero-badge">Research</span>
+                <span className="hero-badge">Blue Theme</span>
+              </div>
+              <div className="monster monster-rich">
+                <span>PEI YUANJIA</span>
+                <p>研究も趣味も、落ち着いて誠実に積み重ねていくタイプです。</p>
               </div>
               <p className="hello">よろしくお願いします</p>
             </div>
@@ -95,12 +119,20 @@ function App() {
 
           <div className="grid-2">
             <article className="panel">
-              <div className="symbol-box">ICE</div>
+              <figure className="media-frame tall-frame">
+                <img
+                  className="media-image"
+                  src={imageSources.harbin.src}
+                  alt={imageSources.harbin.alt}
+                  loading="lazy"
+                />
+              </figure>
               <h3 className="panel-title">氷と雪が印象的</h3>
               <p className="body-copy">
                 黒竜江省といえば、やはり冬の景色。<br />
                 冷たい空気と雪景色のイメージが強く残っています。
               </p>
+              <p className="image-credit">{imageSources.harbin.credit}</p>
             </article>
 
             <aside className="panel soft">
@@ -126,11 +158,16 @@ function App() {
 
           <div className="grid-3">
             <article className="panel">
-              <div className="symbol-box">GAME</div>
+              <div className="symbol-box symbol-compact">GAME</div>
               <h3 className="panel-title">アニメ・ゲームが好きです</h3>
               <p className="body-copy">
                 作品の世界観やキャラクターを見るのが好きで、継続して楽しんでいます。
               </p>
+              <div className="pill-row visual-pills">
+                <span className="pill">Anime</span>
+                <span className="pill">Game</span>
+                <span className="pill">Light Novel</span>
+              </div>
             </article>
 
             <article className="panel soft">
@@ -148,9 +185,17 @@ function App() {
             </article>
 
             <article className="panel">
-              <div className="symbol-box">ORCA</div>
+              <figure className="media-frame wide-frame">
+                <img
+                  className="media-image"
+                  src={imageSources.orca.src}
+                  alt={imageSources.orca.alt}
+                  loading="lazy"
+                />
+              </figure>
               <h3 className="panel-title">シャチも好きです</h3>
               <p className="body-copy">強さとかっこよさの両方があるところに惹かれます。</p>
+              <p className="image-credit">{imageSources.orca.credit}</p>
             </article>
           </div>
         </section>
@@ -160,13 +205,21 @@ function App() {
 
           <div className="grid-2">
             <article className="panel">
-              <div className="symbol-box">BILLIARDS</div>
+              <figure className="media-frame wide-frame">
+                <img
+                  className="media-image"
+                  src={imageSources.billiards.src}
+                  alt={imageSources.billiards.alt}
+                  loading="lazy"
+                />
+              </figure>
               <p className="split-title accent-title">趣味</p>
               <p className="large-copy">
                 好きなものを楽しむこと
                 <br />
                 ビリヤード（まだまだ練習中です）
               </p>
+              <p className="image-credit">{imageSources.billiards.credit}</p>
             </article>
 
             <aside className="panel soft">
@@ -258,6 +311,9 @@ function App() {
             <p className="big">ご清聴ありがとうございました</p>
             <p className="body-copy footer-copy">今後ともよろしくお願いします。</p>
             <div className="orca">THANK YOU</div>
+            <p className="source-note">
+              写真素材は Wikimedia Commons の公開画像を使用しています。
+            </p>
           </div>
         </section>
       </main>

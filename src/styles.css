@@ -134,7 +134,9 @@ h1 {
   width: 100%;
   height: 100%;
   border-radius: 22px;
-  background: rgba(255, 255, 255, 0.7);
+  background:
+    radial-gradient(circle at top, rgba(63, 142, 252, 0.2), transparent 46%),
+    rgba(255, 255, 255, 0.76);
   border: 1px solid rgba(207, 224, 243, 0.8);
   display: flex;
   flex-direction: column;
@@ -143,6 +145,23 @@ h1 {
   gap: 24px;
   padding: 28px;
   text-align: center;
+}
+
+.hero-badge-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+}
+
+.hero-badge {
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(207, 224, 243, 0.9);
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--accent-dark);
+  font-size: 0.9rem;
+  font-weight: 700;
 }
 
 .monster {
@@ -157,11 +176,27 @@ h1 {
   filter: drop-shadow(0 14px 18px rgba(29, 93, 184, 0.12));
 }
 
+.monster-rich {
+  width: min(420px, 100%);
+  min-height: 280px;
+  align-content: center;
+  gap: 12px;
+  padding: 28px;
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.96), rgba(232, 243, 255, 0.96)),
+    linear-gradient(180deg, #ffffff 0%, #edf5ff 100%);
+}
+
 .monster span {
   font-size: clamp(1.5rem, 4vw, 2.3rem);
   font-weight: 900;
   letter-spacing: 0.08em;
   color: var(--accent-dark);
+}
+
+.monster-rich p {
+  max-width: 28ch;
+  color: var(--muted);
 }
 
 .hello {
@@ -268,6 +303,46 @@ section {
   margin-bottom: 24px;
 }
 
+.symbol-compact {
+  height: 200px;
+  margin-bottom: 18px;
+}
+
+.media-frame {
+  margin: 0 0 24px;
+  overflow: hidden;
+  border-radius: 22px;
+  border: 1px solid rgba(207, 224, 243, 0.9);
+  background: #dfeefe;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+
+.tall-frame {
+  aspect-ratio: 4 / 3;
+}
+
+.wide-frame {
+  aspect-ratio: 16 / 10;
+}
+
+.media-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 240ms ease;
+}
+
+.panel:hover .media-image {
+  transform: scale(1.03);
+}
+
+.image-credit {
+  margin-top: 12px;
+  font-size: 0.84rem;
+  color: #8aa0bb;
+}
+
 .list {
   padding-left: 1.2em;
   margin: 16px 0 0;
@@ -279,6 +354,10 @@ section {
   flex-wrap: wrap;
   gap: 10px;
   margin-top: 16px;
+}
+
+.visual-pills {
+  margin-top: 18px;
 }
 
 .pill {
@@ -423,6 +502,12 @@ section {
   font-size: 1.15rem;
 }
 
+.source-note {
+  margin-top: 18px;
+  font-size: 0.9rem;
+  color: #8aa0bb;
+}
+
 .footer-box .orca {
   margin-top: 26px;
   display: inline-block;
@@ -446,6 +531,10 @@ section {
   .hero-main,
   .hero-visual {
     min-height: auto;
+  }
+
+  .monster-rich {
+    min-height: 240px;
   }
 
   .section-head {
@@ -490,5 +579,9 @@ section {
   .symbol-box {
     height: 220px;
     font-size: clamp(1.6rem, 8vw, 2.5rem);
+  }
+
+  .symbol-compact {
+    height: 180px;
   }
 }
