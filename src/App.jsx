@@ -199,70 +199,74 @@ function App() {
         <section id="likes">
           <SectionTitle title="好きなもの" note="Anime / Game / Light Novel / Orca" />
 
-          <div className="grid-2 likes-grid">
-            <article className="panel reveal">
-              <figure className="media-frame wide-frame likes-media-frame">
-                <img
-                  className="media-image likes-media-image"
-                  src={imageSources.game.src}
-                  alt={imageSources.game.alt}
-                  loading="lazy"
-                />
-              </figure>
-              <h3 className="panel-title">ゲーム</h3>
-              <p className="body-copy">
-                世界観や育成要素がある作品を長く遊ぶことが多く、少しずつ積み重ねるタイプのゲームが特に好きです。
-              </p>
-              <div className="pill-row visual-pills">
-                <span className="pill">Game</span>
-                <span className="pill">Worldbuilding</span>
-                <span className="pill">Character</span>
-              </div>
-              <p className="image-credit">{imageSources.game.credit}</p>
-            </article>
+          <div className="likes-stack">
+            <div className="likes-group reveal">
+              <article className="panel likes-feature-card">
+                <figure className="media-frame likes-media-frame genshin-frame">
+                  <img
+                    className="media-image likes-media-image"
+                    src={imageSources.game.src}
+                    alt={imageSources.game.alt}
+                    loading="lazy"
+                  />
+                </figure>
+                <h3 className="panel-title">ゲーム</h3>
+                <p className="body-copy">
+                  世界観や育成要素がある作品を長く遊ぶことが多く、少しずつ積み重ねるタイプのゲームが特に好きです。
+                </p>
+                <div className="pill-row visual-pills">
+                  <span className="pill">Game</span>
+                  <span className="pill">Worldbuilding</span>
+                  <span className="pill">Character</span>
+                </div>
+                <p className="image-credit">{imageSources.game.credit}</p>
+              </article>
 
-            <article className="panel soft reveal">
-              <figure className="media-frame wide-frame likes-media-frame">
-                <img
-                  className="media-image likes-media-image pokemon-media-image"
-                  src={imageSources.anime.src}
-                  alt={imageSources.anime.alt}
-                  loading="lazy"
-                />
-              </figure>
-              <h3 className="panel-title">アニメ</h3>
-              <p className="body-copy">
-                作画や演出を見るのも好きで、テンポが良い作品やキャラクターの魅力が強い作品によく惹かれます。
-              </p>
-              <div className="pill-row visual-pills">
-                <span className="pill">Anime</span>
-                <span className="pill">Light Novel</span>
-                <span className="pill">Story</span>
-              </div>
-              <p className="image-credit">{imageSources.anime.credit}</p>
-            </article>
+              <article className="panel reveal likes-detail-card">
+                <p className="split-title">よく遊ぶゲーム</p>
+                <div className="badge-grid">
+                  {games.map((game) => (
+                    <div className="badge" key={game}>
+                      {game}
+                    </div>
+                  ))}
+                </div>
+              </article>
+            </div>
 
-            <article className="panel reveal">
-              <p className="split-title">よく遊ぶゲーム</p>
-              <div className="badge-grid">
-                {games.map((game) => (
-                  <div className="badge" key={game}>
-                    {game}
-                  </div>
-                ))}
-              </div>
-            </article>
+            <div className="likes-group reveal">
+              <article className="panel soft likes-feature-card">
+                <figure className="media-frame likes-media-frame pokemon-frame">
+                  <img
+                    className="media-image likes-media-image"
+                    src={imageSources.anime.src}
+                    alt={imageSources.anime.alt}
+                    loading="lazy"
+                  />
+                </figure>
+                <h3 className="panel-title">アニメ</h3>
+                <p className="body-copy">
+                  作画や演出を見るのも好きで、テンポが良い作品やキャラクターの魅力が強い作品によく惹かれます。
+                </p>
+                <div className="pill-row visual-pills">
+                  <span className="pill">Anime</span>
+                  <span className="pill">Light Novel</span>
+                  <span className="pill">Story</span>
+                </div>
+                <p className="image-credit">{imageSources.anime.credit}</p>
+              </article>
 
-            <article className="panel soft reveal">
-              <p className="split-title">好きなアニメ</p>
-              <div className="badge-grid">
-                {animeTitles.map((title) => (
-                  <div className="badge" key={title}>
-                    {title}
-                  </div>
-                ))}
-              </div>
-            </article>
+              <article className="panel soft reveal likes-detail-card">
+                <p className="split-title">好きなアニメ</p>
+                <div className="badge-grid">
+                  {animeTitles.map((title) => (
+                    <div className="badge" key={title}>
+                      {title}
+                    </div>
+                  ))}
+                </div>
+              </article>
+            </div>
           </div>
 
           <article className="panel reveal stack-gap">

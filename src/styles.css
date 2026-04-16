@@ -300,6 +300,24 @@ section {
   align-items: start;
 }
 
+.likes-stack {
+  display: grid;
+  gap: 24px;
+}
+
+.likes-group {
+  display: grid;
+  gap: 16px;
+}
+
+.likes-feature-card {
+  width: 100%;
+}
+
+.likes-detail-card {
+  width: 100%;
+}
+
 .panel {
   padding: 28px;
 }
@@ -350,9 +368,16 @@ section {
 }
 
 .likes-media-frame {
-  aspect-ratio: auto;
-  height: 380px;
+  height: auto;
   background: linear-gradient(180deg, #eff6ff 0%, #e4efff 100%);
+}
+
+.genshin-frame {
+  aspect-ratio: 16 / 9;
+}
+
+.pokemon-frame {
+  aspect-ratio: 25 / 12;
 }
 
 .media-image {
@@ -367,18 +392,8 @@ section {
   object-fit: cover;
 }
 
-.pokemon-media-image {
-  object-fit: contain;
-  transform: scale(1.16);
-  transform-origin: center;
-}
-
 .panel:hover .media-image {
   transform: scale(1.03);
-}
-
-.panel:hover .pokemon-media-image {
-  transform: scale(1.2);
 }
 
 .image-credit {
@@ -655,10 +670,6 @@ section {
   .symbol-box {
     height: 220px;
     font-size: clamp(1.6rem, 8vw, 2.5rem);
-  }
-
-  .likes-media-frame {
-    height: 260px;
   }
 
   .symbol-compact {
