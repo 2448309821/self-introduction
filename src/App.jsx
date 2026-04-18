@@ -15,6 +15,49 @@ const animeTitles = ['ノゲノラ', 'メダリスト', 'リゼロ', 'ポケモ�
 
 const researchKeywords = ['ライブラリ', '依存関係', '脆弱性管理', 'サプライチェーン']
 
+const timelineItems = [
+  {
+    year: '2002.08.16',
+    title: '中国で生まれる',
+    body: '2002年8月16日生まれ。',
+  },
+  {
+    year: '2008-2014',
+    title: '中国で小学校',
+    body: '中国で小学校に通いました。',
+  },
+  {
+    year: '2014-2017',
+    title: '中国で中学校',
+    body: '中国で中学校に通い、卒業後に来日しました。',
+  },
+  {
+    year: '2017.09.14',
+    title: '来日',
+    body: '中学校卒業後の9月14日に日本へ来ました。',
+  },
+  {
+    year: '2017.09-2019.03',
+    title: '大清水中学校',
+    body: '日本語未習得の状態だったため、校長先生の勧めで中学2年生として大清水中学校に入り、卒業しました。',
+  },
+  {
+    year: '2019.04-2022.03',
+    title: '相模原弥栄高等学校',
+    body: '高校では日本での学習基盤を固めました。',
+  },
+  {
+    year: '2022.04-2026.03',
+    title: '東京都市大学',
+    body: '学部で学び、卒業後はそのまま本学大学院へ進学しました。',
+  },
+  {
+    year: '2026.04-',
+    title: '東京都市大学大学院',
+    body: '現在は本校大学院で学んでいます。',
+  },
+]
+
 const imageBase = `${import.meta.env.BASE_URL}image/`
 
 const imageSources = {
@@ -122,6 +165,7 @@ function App() {
         <div className="wrap nav-list">
           <a href="#call">呼び方</a>
           <a href="#origin">出身</a>
+          <a href="#history">略歴</a>
           <a href="#likes">好きなもの</a>
           <a href="#hobby">趣味と目標</a>
           <a href="#research">研究関連</a>
@@ -193,6 +237,52 @@ function App() {
                 ふるさとの紹介ポイントです。
               </p>
             </aside>
+          </div>
+        </section>
+
+        <section id="history">
+          <SectionTitle title="略歴" note="My Timeline" />
+
+          <div className="history-layout reveal">
+            <aside className="panel history-summary-card">
+              <p className="split-title">Overview</p>
+              <p className="history-summary-title">中国から日本へ、
+                <br />
+                学びをつないできた流れ</p>
+              <p className="body-copy timeline-note">
+                2002年生まれ。中国で小中学校を過ごし、2017年9月14日に来日しました。
+                その後は日本の中学校・高校・大学を経て、現在は東京都市大学大学院で学んでいます。
+              </p>
+              <div className="history-stat-grid">
+                <div className="history-stat">
+                  <span className="history-stat-value">2002</span>
+                  <span className="history-stat-label">Birth</span>
+                </div>
+                <div className="history-stat">
+                  <span className="history-stat-value">2017</span>
+                  <span className="history-stat-label">Japan</span>
+                </div>
+                <div className="history-stat">
+                  <span className="history-stat-value">2026</span>
+                  <span className="history-stat-label">Master</span>
+                </div>
+              </div>
+            </aside>
+
+            <div className="panel soft history-timeline-card">
+              <div className="timeline-list premium-timeline">
+                {timelineItems.map((item) => (
+                  <article className="timeline-item premium-timeline-item" key={`${item.year}-${item.title}`}>
+                    <div className="timeline-marker" aria-hidden="true" />
+                    <p className="timeline-year">{item.year}</p>
+                    <div className="timeline-content">
+                      <h3 className="timeline-title">{item.title}</h3>
+                      <p className="body-copy timeline-copy">{item.body}</p>
+                    </div>
+                  </article>
+                ))}
+              </div>
+            </div>
           </div>
         </section>
 
