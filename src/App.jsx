@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
 const callPoints = [
   '中国の黒竜江省から来ました。',
@@ -15,46 +15,65 @@ const animeTitles = ['ノゲノラ', 'メダリスト', 'リゼロ', 'ポケモ�
 
 const researchKeywords = ['ライブラリ', '依存関係', '脆弱性管理', 'サプライチェーン']
 
+const heroHighlights = [
+  { value: '2017', label: '来日' },
+  { value: 'SBOM', label: '研究' },
+  { value: '500+', label: 'TOEIC目標' },
+]
+
+const researchCards = [
+  {
+    label: '対象',
+    title: 'Python 環境の SBOM 生成ツール',
+    body: '実際の利用環境に近い条件で、生成精度と出力の差を比較しています。',
+  },
+  {
+    label: '方法',
+    title: 'インストール結果を基準に比較',
+    body: 'ツールの出力だけでなく、実環境とのズレに注目して分析しています。',
+  },
+  {
+    label: '目的',
+    title: '精度と不足点の整理',
+    body: '既存ツールの得意・不得意を明確にし、改善の方向を見やすくすることが狙いです。',
+  },
+]
+
+const sections = [
+  { id: 'call', label: '呼び方' },
+  { id: 'origin', label: '出身' },
+  { id: 'history', label: '略歴' },
+  { id: 'likes', label: '好きなもの' },
+  { id: 'hobby', label: '趣味と目標' },
+  { id: 'research', label: '研究関連' },
+  { id: 'end', label: '終わり' },
+]
+
 const timelineItems = [
   {
-    year: '2002.08.16',
+    year: '2002',
     title: '中国で生まれる',
-    body: '2002年8月16日生まれ。',
+    body: '2002年8月16日に中国で生まれ、中国で小学校と中学校を過ごしました。',
   },
   {
-    year: '2008-2014',
-    title: '中国で小学校',
-    body: '中国で小学校に通いました。',
+    year: '2017',
+    title: '日本へ来る',
+    body: '中学校卒業後の2017年9月14日に来日しました。',
   },
   {
-    year: '2014-2017',
-    title: '中国で中学校',
-    body: '中国で中学校に通い、卒業後に来日しました。',
+    year: '2019',
+    title: '中学校を卒業',
+    body: '日本語未習得の状態から、大清水中学校で学び直し、中学校を卒業しました。',
   },
   {
-    year: '2017.09.14',
-    title: '来日',
-    body: '中学校卒業後の9月14日に日本へ来ました。',
+    year: '2022',
+    title: '大学へ進学',
+    body: '相模原弥栄高等学校を経て、東京都市大学に進学しました。',
   },
   {
-    year: '2017.09-2019.03',
-    title: '大清水中学校',
-    body: '日本語未習得の状態だったため、校長先生の勧めで中学2年生として大清水中学校に入り、卒業しました。',
-  },
-  {
-    year: '2019.04-2022.03',
-    title: '相模原弥栄高等学校',
-    body: '高校では日本での学習基盤を固めました。',
-  },
-  {
-    year: '2022.04-2026.03',
-    title: '東京都市大学',
-    body: '学部で学び、卒業後はそのまま本学大学院へ進学しました。',
-  },
-  {
-    year: '2026.04-',
-    title: '東京都市大学大学院',
-    body: '現在は本校大学院で学んでいます。',
+    year: '2026',
+    title: '大学院へ進学',
+    body: '学部卒業後はそのまま本校大学院へ進学し、現在も学んでいます。',
   },
 ]
 
@@ -79,12 +98,26 @@ const imageSources = {
   game: {
     src: `${imageBase}genshin.png`,
     alt: '原神のイラスト',
-    credit: 'Game image provided locally',
+    credit: 'ゲーム画像（ローカル画像）',
   },
   anime: {
     src: `${imageBase}pokemon.png`,
     alt: 'ポケモンのイラスト',
-    credit: 'Anime image provided locally',
+    credit: 'アニメ画像（ローカル画像）',
+  },
+  historyBg: {
+    src: `${imageBase}history-background.jpg`,
+  },
+  likesBg: {
+    src: `${imageBase}likes-background.jpg`,
+  },
+  researchBg: {
+    src: `${imageBase}research-background.jpg`,
+  },
+  hero: {
+    src: `${imageBase}hero-background.jpg`,
+    alt: '雪と青空の風景',
+    credit: 'Hero background / Pexels',
   },
 }
 
@@ -101,6 +134,22 @@ function SectionTitle({ title, note }) {
 }
 
 function App() {
+  const [activeSection, setActiveSection] = useState('call')
+  const [openLike, setOpenLike] = useState('game')
+  const [scrollProgress, setScrollProgress] = useState(0)
+  const [showBackToTop, setShowBackToTop] = useState(false)
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollTop = window.scrollY
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight
+      setScrollProgress(docHeight > 0 ? (scrollTop / docHeight) * 100 : 0)
+      setShowBackToTop(scrollTop > 500)
+    }
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
+
   useEffect(() => {
     document.body.classList.add('reveal-ready')
 
@@ -120,62 +169,125 @@ function App() {
       },
     )
 
+    const sectionObserver = new IntersectionObserver(
+      (entries) => {
+        const visibleEntries = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)
+
+        if (visibleEntries[0]?.target?.id) {
+          setActiveSection(visibleEntries[0].target.id)
+        }
+      },
+      {
+        threshold: [0.2, 0.4, 0.6],
+        rootMargin: '-12% 0px -55% 0px',
+      },
+    )
+
     elements.forEach((element) => observer.observe(element))
+
+    sections.forEach(({ id }) => {
+      const section = document.getElementById(id)
+      if (section) {
+        sectionObserver.observe(section)
+      }
+    })
 
     return () => {
       observer.disconnect()
+      sectionObserver.disconnect()
       document.body.classList.remove('reveal-ready')
     }
   }, [])
 
   return (
     <>
+      <div className="scroll-progress" style={{ '--progress': `${scrollProgress}%` }} aria-hidden="true" />
+
+      <button
+        type="button"
+        className={`back-to-top${showBackToTop ? ' is-visible' : ''}`}
+        onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+        aria-label="ページトップへ戻る"
+      >
+        ↑
+      </button>
+
       <header className="hero wrap" id="top">
         <div className="hero-grid">
           <article className="card hero-main reveal">
             <div>
-              <span className="eyebrow">Self Introduction</span>
-              <h1>自己紹介</h1>
+              <span className="eyebrow">プロフィール</span>
+              <p className="hero-kicker">中国から日本へ</p>
+              <h1>裴 元嘉</h1>
+              <p className="name-en hero-name-en">PEI YUANJIA</p>
+              <p className="hero-lead">
+                学びを積み重ねながら、<br />
+                SBOM とソフトウェアの信頼性を研究しています。
+              </p>
+              <div className="hero-keywords">
+                <span className="hero-keyword">研究</span>
+                <span className="hero-keyword">信頼性</span>
+                <span className="hero-keyword">成長</span>
+              </div>
+              <div className="hero-highlight-grid">
+                {heroHighlights.map((item) => (
+                  <div className="hero-highlight-card" key={item.label}>
+                    <span className="hero-highlight-value">{item.value}</span>
+                    <span className="hero-highlight-label">{item.label}</span>
+                  </div>
+                ))}
+              </div>
               <p className="lab">計算機ソフトウェア研究室</p>
-              <p className="student-id">学籍番号: 2681461</p>
-              <p className="name-ja">裴 元嘉</p>
-              <p className="name-en">PEI YUANJIA</p>
             </div>
-            <p className="edition">Simple blue &amp; white edition</p>
+            <div className="hero-meta">
+              <p className="student-id">学籍番号: 2681461</p>
+              <p className="edition">青と白を基調にした自己紹介ページ</p>
+            </div>
           </article>
 
           <aside className="card hero-visual reveal">
-            <div className="visual-box">
+            <div className="visual-box visual-box-photo">
+              <img className="hero-background-image" src={imageSources.hero.src} alt={imageSources.hero.alt} />
+              <div className="hero-visual-overlay" />
               <div className="hero-badge-row">
-                <span className="hero-badge">Japanese</span>
-                <span className="hero-badge">Research</span>
-                <span className="hero-badge">Blue Theme</span>
+                <span className="hero-badge">2002</span>
+                <span className="hero-badge">2017年来日</span>
+                <span className="hero-badge">SBOM</span>
               </div>
-              <div className="monster monster-rich">
-                <span>PEI YUANJIA</span>
-                <p>研究も趣味も、落ち着いて誠実に積み重ねていくタイプです。</p>
+              <div className="hero-visual-copy">
+                <p className="hero-visual-kicker">静かな青、積み重ねる歩み</p>
+                <p className="hero-visual-title">落ち着いて、誠実に</p>
+                <p className="hero-visual-text">
+                  環境が変わっても、少しずつ積み重ねながら前に進むことを大切にしています。
+                </p>
               </div>
               <p className="hello">よろしくお願いします</p>
+              <p className="hero-image-credit">{imageSources.hero.credit}</p>
             </div>
           </aside>
         </div>
       </header>
 
       <nav className="top-nav">
-        <div className="wrap nav-list">
-          <a href="#call">呼び方</a>
-          <a href="#origin">出身</a>
-          <a href="#history">略歴</a>
-          <a href="#likes">好きなもの</a>
-          <a href="#hobby">趣味と目標</a>
-          <a href="#research">研究関連</a>
-          <a href="#end">終わり</a>
+        <div className="nav-title">目次</div>
+        <div className="nav-list">
+          {sections.map((section) => (
+            <a
+              key={section.id}
+              href={`#${section.id}`}
+              className={activeSection === section.id ? 'is-active' : ''}
+            >
+              {section.label}
+            </a>
+          ))}
         </div>
       </nav>
 
       <main className="wrap">
         <section id="call">
-          <SectionTitle title="呼び方" note="How to call me" />
+          <SectionTitle title="呼び方" note="名前について" />
 
           <div className="grid-2">
             <article className="panel reveal">
@@ -202,7 +314,7 @@ function App() {
         </section>
 
         <section id="origin">
-          <SectionTitle title="出身" note="Heilongjiang, China" />
+          <SectionTitle title="出身" note="中国・黒竜江省" />
 
           <div className="grid-2">
             <article className="panel reveal">
@@ -240,12 +352,16 @@ function App() {
           </div>
         </section>
 
-        <section id="history">
-          <SectionTitle title="略歴" note="My Timeline" />
+        <section
+          id="history"
+          className="section-surface history-surface"
+          style={{ '--surface-bg': `url(${imageSources.historyBg.src})` }}
+        >
+          <SectionTitle title="略歴" note="これまでの流れ" />
 
           <div className="history-layout reveal">
             <aside className="panel history-summary-card">
-              <p className="split-title">Overview</p>
+              <p className="split-title">概要</p>
               <p className="history-summary-title">中国から日本へ、
                 <br />
                 学びをつないできた流れ</p>
@@ -256,23 +372,24 @@ function App() {
               <div className="history-stat-grid">
                 <div className="history-stat">
                   <span className="history-stat-value">2002</span>
-                  <span className="history-stat-label">Birth</span>
+                  <span className="history-stat-label">誕生</span>
                 </div>
                 <div className="history-stat">
                   <span className="history-stat-value">2017</span>
-                  <span className="history-stat-label">Japan</span>
+                  <span className="history-stat-label">来日</span>
                 </div>
                 <div className="history-stat">
                   <span className="history-stat-value">2026</span>
-                  <span className="history-stat-label">Master</span>
+                  <span className="history-stat-label">大学院</span>
                 </div>
               </div>
+              <p className="history-summary-footnote">5つの節目で、環境の変化と学びの流れを整理しています。</p>
             </aside>
 
             <div className="panel soft history-timeline-card">
               <div className="timeline-list premium-timeline">
-                {timelineItems.map((item) => (
-                  <article className="timeline-item premium-timeline-item" key={`${item.year}-${item.title}`}>
+                {timelineItems.map((item, i) => (
+                  <article className="timeline-item premium-timeline-item reveal" style={{ '--i': i }} key={`${item.year}-${item.title}`}>
                     <div className="timeline-marker" aria-hidden="true" />
                     <p className="timeline-year">{item.year}</p>
                     <div className="timeline-content">
@@ -286,12 +403,16 @@ function App() {
           </div>
         </section>
 
-        <section id="likes">
-          <SectionTitle title="好きなもの" note="Anime / Game / Light Novel / Orca" />
+        <section
+          id="likes"
+          className="section-surface section-surface-soft likes-surface"
+          style={{ '--surface-bg': `url(${imageSources.likesBg.src})` }}
+        >
+          <SectionTitle title="好きなもの" note="趣味とお気に入り" />
 
           <div className="likes-stack">
             <div className="likes-group reveal">
-              <article className="panel likes-feature-card">
+              <article className={`panel likes-feature-card interactive-card${openLike === 'game' ? ' is-open' : ''}`}>
                 <figure className="media-frame likes-media-frame genshin-frame">
                   <img
                     className="media-image likes-media-image"
@@ -305,27 +426,40 @@ function App() {
                   世界観や育成要素がある作品を長く遊ぶことが多く、少しずつ積み重ねるタイプのゲームが特に好きです。
                 </p>
                 <div className="pill-row visual-pills">
-                  <span className="pill">Game</span>
-                  <span className="pill">Worldbuilding</span>
-                  <span className="pill">Character</span>
+                  <span className="pill">ゲーム</span>
+                  <span className="pill">世界観</span>
+                  <span className="pill">キャラクター</span>
                 </div>
+                <button
+                  type="button"
+                  className="detail-toggle"
+                  onClick={() => setOpenLike(openLike === 'game' ? '' : 'game')}
+                  aria-expanded={openLike === 'game'}
+                >
+                  {openLike === 'game' ? '閉じる' : '好きなゲームを見る'}
+                </button>
                 <p className="image-credit">{imageSources.game.credit}</p>
               </article>
 
-              <article className="panel reveal likes-detail-card">
-                <p className="split-title">よく遊ぶゲーム</p>
-                <div className="badge-grid">
-                  {games.map((game) => (
-                    <div className="badge" key={game}>
-                      {game}
-                    </div>
-                  ))}
-                </div>
-              </article>
+              {openLike === 'game' ? (
+                <article className="panel likes-detail-card likes-detail-expanded">
+                  <p className="split-title">よく遊ぶゲーム</p>
+                  <p className="detail-intro">
+                    長く遊びたくなる作品は、世界観やキャラクターの魅力がしっかりあるものです。
+                  </p>
+                  <div className="badge-grid">
+                    {games.map((game) => (
+                      <div className="badge" key={game}>
+                        {game}
+                      </div>
+                    ))}
+                  </div>
+                </article>
+              ) : null}
             </div>
 
             <div className="likes-group reveal">
-              <article className="panel soft likes-feature-card">
+              <article className={`panel soft likes-feature-card interactive-card${openLike === 'anime' ? ' is-open' : ''}`}>
                 <figure className="media-frame likes-media-frame pokemon-frame">
                   <img
                     className="media-image likes-media-image"
@@ -339,23 +473,36 @@ function App() {
                   作画や演出を見るのも好きで、テンポが良い作品やキャラクターの魅力が強い作品によく惹かれます。
                 </p>
                 <div className="pill-row visual-pills">
-                  <span className="pill">Anime</span>
-                  <span className="pill">Light Novel</span>
-                  <span className="pill">Story</span>
+                  <span className="pill">アニメ</span>
+                  <span className="pill">ライトノベル</span>
+                  <span className="pill">物語</span>
                 </div>
+                <button
+                  type="button"
+                  className="detail-toggle"
+                  onClick={() => setOpenLike(openLike === 'anime' ? '' : 'anime')}
+                  aria-expanded={openLike === 'anime'}
+                >
+                  {openLike === 'anime' ? '閉じる' : '好きなアニメを見る'}
+                </button>
                 <p className="image-credit">{imageSources.anime.credit}</p>
               </article>
 
-              <article className="panel soft reveal likes-detail-card">
-                <p className="split-title">好きなアニメ</p>
-                <div className="badge-grid">
-                  {animeTitles.map((title) => (
-                    <div className="badge" key={title}>
-                      {title}
-                    </div>
-                  ))}
-                </div>
-              </article>
+              {openLike === 'anime' ? (
+                <article className="panel soft likes-detail-card likes-detail-expanded">
+                  <p className="split-title">好きなアニメ</p>
+                  <p className="detail-intro">
+                    作画やテンポだけでなく、キャラクターの感情がしっかり伝わる作品が特に印象に残ります。
+                  </p>
+                  <div className="badge-grid">
+                    {animeTitles.map((title) => (
+                      <div className="badge" key={title}>
+                        {title}
+                      </div>
+                    ))}
+                  </div>
+                </article>
+              ) : null}
             </div>
           </div>
 
@@ -375,7 +522,7 @@ function App() {
         </section>
 
         <section id="hobby">
-          <SectionTitle title="趣味と目標" note="Enjoy what I like, and keep improving" />
+          <SectionTitle title="趣味と目標" note="好きなこととこれから" />
 
           <div className="grid-2">
             <article className="panel reveal">
@@ -411,8 +558,12 @@ function App() {
           </div>
         </section>
 
-        <section id="research">
-          <SectionTitle title="研究関連" note="Software Bill of Materials" />
+        <section
+          id="research"
+          className="section-surface research-surface"
+          style={{ '--surface-bg': `url(${imageSources.researchBg.src})` }}
+        >
+          <SectionTitle title="研究関連" note="SBOM を中心に" />
 
           <div className="grid-2">
             <article className="panel reveal">
@@ -442,38 +593,21 @@ function App() {
             </aside>
           </div>
 
-          <div className="panel research-detail reveal">
+          <div className="panel research-detail reveal research-detail-shell">
             <div className="section-head section-head-compact">
               <h3 className="research-heading">これまでの研究内容</h3>
-              <p className="section-note">SBOM generation tools in Python environment</p>
+              <p className="section-note">Python 環境における SBOM 生成ツール</p>
             </div>
-            <div className="grid-2 compact-grid">
-              <div>
-                <p>
-                  <strong>対象</strong>
-                  <br />
-                  Python 環境における SBOM 生成ツール
-                </p>
-                <p className="detail-gap">
-                  <strong>方法</strong>
-                  <br />
-                  実際のインストール結果を基準に比較
-                </p>
-              </div>
-              <div>
-                <p>
-                  <strong>見た点</strong>
-                  <br />
-                  ツールごとの精度と既存のSBOM生成ツールの課題
-                </p>
-                <p className="detail-gap">
-                  <strong>目的</strong>
-                  <br />
-                  精度の評価と不足ポイントの整理
-                </p>
-              </div>
+            <div className="research-card-grid">
+              {researchCards.map((card) => (
+                <article className="research-story-card" key={card.label}>
+                  <p className="research-story-label">{card.label}</p>
+                  <h4 className="research-story-title">{card.title}</h4>
+                  <p className="research-story-body">{card.body}</p>
+                </article>
+              ))}
             </div>
-            <p className="body-copy detail-gap">
+            <p className="body-copy detail-gap research-conclusion">
               実環境を基準にすることで、ツールの出力だけでは見えにくい差や課題を分析してきました。
             </p>
           </div>
@@ -484,9 +618,9 @@ function App() {
             <p className="split-title">終わり</p>
             <p className="big">ご清聴ありがとうございました</p>
             <p className="body-copy footer-copy">今後ともよろしくお願いします。</p>
-            <div className="orca">THANK YOU</div>
+            <div className="orca">ありがとうございました</div>
             <p className="source-note">
-              写真素材は Wikimedia Commons の公開画像を使用しています。
+              写真素材には Wikimedia Commons の公開画像とローカル画像を使用しています。
             </p>
           </div>
         </section>
